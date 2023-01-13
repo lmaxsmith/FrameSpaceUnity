@@ -1,5 +1,26 @@
 {
   "dependencies": {
+    "build.argyle.unclestoolkit": {
+      "version": "https://github.com/Argylebuild/UnclesToolkit.git#refactor/assembly",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "03490eef15639434459e28e704c7e24adfac83cc"
+    },
+    "com.cysharp.unitask": {
+      "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "73d86259ce31ce7f4dfe1d028ea1c3edf96c23e4"
+    },
+    "com.madsbangh.easybuttons": {
+      "version": "https://github.com/madsbangh/EasyButtons.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "39da70419a2dc9ce0059b40dd64abcdfcef58ea1"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
