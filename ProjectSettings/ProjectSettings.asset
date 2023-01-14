@@ -135,9 +135,7 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 0.1
-  preloadedAssets:
-  - {fileID: -4227015969138118510, guid: ffb3d63b9d2a959478ecca49740c6e28, type: 2}
-  - {fileID: -2774930349858502744, guid: f88ea5ae517a28b4ebb5b70e05fbe1e0, type: 2}
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -840,11 +838,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: Template_Lightweight
   metroPackageVersion: 
-  metroCertificatePath: 
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: FrameMakers
+  metroCertificateIssuer: FrameMakers
+  metroCertificateNotAfter: 80fe60226247da01
   metroApplicationDescription: Template_Lightweight
   wsaImages: {}
   metroTileShortName: 
