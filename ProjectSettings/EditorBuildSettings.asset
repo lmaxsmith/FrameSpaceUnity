@@ -8,4 +8,6 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: ffb3d63b9d2a959478ecca49740c6e28, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: f88ea5ae517a28b4ebb5b70e05fbe1e0, type: 2}
