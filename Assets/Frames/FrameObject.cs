@@ -7,6 +7,7 @@ namespace Frames
 	/// </summary>
 	public class FrameObject : ArgyleComponent
 	{
-		public FrameData _date;
+		public FrameData Data;
+
 	}
 }

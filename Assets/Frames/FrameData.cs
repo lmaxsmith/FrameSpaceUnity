@@ -19,7 +19,6 @@ namespace Frames
 		/// <summary>
 		/// Lat lon elevation global position
 		/// </summary>
-
 		public GeoLocation geometry { get; set; }
 		
 
@@ -29,6 +28,7 @@ namespace Frames
 		/// Euler angle from North
 		/// </summary>
 		public Vector3 Rotation { get; set; }
+		
 		[JsonIgnore]
 		public DateTime Created { get; set; }
 		[JsonIgnore]
@@ -48,7 +48,6 @@ namespace Frames
 			this.AssetId = Guid.NewGuid().ToString();
 			AspectRatio = Reference.MainCamera.aspect;
 		}
-		
 	}
 
 	/// <summary>
@@ -58,9 +57,20 @@ namespace Frames
 	{
 		public string id { get; set; }
 		public DateTime created { get; set; }
-		public string uploadURL { get; set; }
-		public string downloadURL { get; set; }
+		public ImageUrl imageURL { get; set; }
 		
 		public FrameDataResponse(){}
+	}
+
+	/// <summary>
+	/// Subtype for fetching images
+	/// </summary>
+	public class ImageUrl
+	{
+		public string cloudflareUUID { get; set; }
+		public string imageUploadURL { get; set; }
+		public string imageDownloadURL { get; set; }
+
+		public ImageUrl() { }
 	}
 }

@@ -7,6 +7,6 @@ namespace Frames
 	/// </summary>
 	public class GeoReferenceObject : ArgyleComponent
 	{
-        
+		public GeoReference Data;
 	}
 }
