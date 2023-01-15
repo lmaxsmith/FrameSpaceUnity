@@ -4,6 +4,8 @@ using Argyle.UnclesToolkit.Base;
 using Argyle.UnclesToolkit.SceneStuff;
 using EasyButtons;
 using UnityEngine;
+using System.IO;
+using UnityEngine.Events;
 
 public class PortalManager : Manager<PortalManager>
 {
@@ -13,9 +15,12 @@ public class PortalManager : Manager<PortalManager>
     public Interdemensionalizer Interdemensionalizer;
     public WebCamCapture WebCamCapture;
     public string prompt;
+
+    public UnityEvent NewPortalEvent = new UnityEvent();
+    
     
     [Button]
-    public void NewPortal()
+    public async void NewPortal()
     {
         var imageData = WebCamCapture.Capture();
         var fileInfo = WebCamCapture.SaveImage(imageData);
@@ -30,7 +35,19 @@ public class PortalManager : Manager<PortalManager>
         portal.Display();
         Portals.Add(portal);
         
-        Interdemensionalizer.Interdemensionalize(imageData.EncodeToJPG(), prompt);
+        FileInfo changedFile = await Interdemensionalizer.Interdemensionalize(imageData.EncodeToJPG(), prompt);
+
+        portal.currentTexture = ReadImageFile(changedFile);
+        portal.Display();
+        
+        NewPortalEvent.Invoke();
+    }
+
+    public Texture2D ReadImageFile(FileInfo file)
+    {
+        Texture2D tex = new Texture2D(512, 512);
+        tex.LoadImage(File.ReadAllBytes(file.FullName));
+        return tex;
     }
 
     public void ClearPortals()

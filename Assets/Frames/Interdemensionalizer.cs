@@ -18,70 +18,9 @@ public class Interdemensionalizer : MonoBehaviour
     public Texture2D image;
     [FormerlySerializedAs("url")] public string urlPoopy = "https://framespace.leodastur.com/api/newImage";
 
-    /*
-    public void UploadImageWrong()
-    {
-        byte[] imageBytes = image.EncodeToJPG();
-
-
-        string uploadURL = "GetUplaodURL();";
-        UnityWebRequest www = UnityWebRequest.Put(uploadURL, imageBytes);
-        www.SetRequestHeader("Content-Type", "image/jpeg");
-        www.SetRequestHeader("Content-Length", imageBytes.Length.ToString());
-        www.method = "POST";
-        www.uploadHandler = new UploadHandlerRaw(imageBytes);
-        www.downloadHandler = new DownloadHandlerBuffer();
-
-        StartCoroutine(SendRequestUpload(www));
-    }
-
-    private bool SendRequestAsync()
-    {
-        return true;
-    }
-    private IEnumerator SendRequestUpload(UnityWebRequest www)
-    {
-        yield return www.SendWebRequest();
-
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.LogError(www.error);
-        }
-        else
-        {
-            Debug.Log("Image uploaded successfully!");
-        }
-    }
-
-
-    public void StartUpload()
-    {
-        var url = "GetUploadURL()";
-        StartCoroutine("UploadCoroutine");
-    }
-    IEnumerator UploadCoroutine(string uploadURL, byte[] bytes)
-    {
-        WWWForm form = new WWWForm();
-        
-        form.AddBinaryData("data", bytes);
-
-        UnityWebRequest www = UnityWebRequest.Post(uploadURL, form);
-        www.SetRequestHeader("Content-Type", "multipart/form-data");
-        yield return www.SendWebRequest();
-
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log("Form upload complete!");
-        }
-    }
-    */
 
     [Button]
-    public async void Interdemensionalize(byte[] bytes, string prompt)
+    public async UniTask<FileInfo> Interdemensionalize(byte[] bytes, string prompt)
     {
         var urlResponse = await GetUplaodURL();
         string uurl = urlResponse.imageUploadURL;
@@ -104,6 +43,8 @@ public class Interdemensionalizer : MonoBehaviour
         FileInfo interDementionalizedFile = new FileInfo(filepath);
 
         await DownloadFileAsync(downloadURL, interDementionalizedFile.FullName);
+
+        return interDementionalizedFile;
     }
     
     public async UniTask UploadImageAsync(string url, byte[] imageBytes, string fileName)
@@ -138,35 +79,17 @@ public class Interdemensionalizer : MonoBehaviour
     
     }
 
-    /*
-    private string uploadUrl;
-    private IEnumerator SendRequest(UnityWebRequest www)
-    {
-        yield return www.SendWebRequest();
 
-        if (www.isNetworkError || www.isHttpError)
-        {
-            Debug.LogError(www.error);
-        }
-        else
-        {
-            string response = www.downloadHandler.text;
-            Debug.Log("URL retrieved: " + response);
-        }
-    }
-    */
-    
-    
-        /// <summary>
-    /// Calls the protected Web API and Posts new data to database
-    /// </summary>
-    /// <param name="webApiUrl">Url of the Web API to call</param>
-    /// <param name="accessToken">Access token used as a security token to call the Web API</param>
-    /// <param name="serializedObject">List of Dictionaries containing parameters added to the body of the request</param>
-    /// <returns> A boolean true representing content was posted properly; otherwise, false </returns>
-        public async UniTask<string> PostAsync(string requestUrl, string accessToken, string serializedContent)
-            {
-                string result = String.Empty;
+    /// <summary>
+/// Calls the protected Web API and Posts new data to database
+/// </summary>
+/// <param name="webApiUrl">Url of the Web API to call</param>
+/// <param name="accessToken">Access token used as a security token to call the Web API</param>
+/// <param name="serializedObject">List of Dictionaries containing parameters added to the body of the request</param>
+/// <returns> A boolean true representing content was posted properly; otherwise, false </returns>
+    public async UniTask<string> PostAsync(string requestUrl, string accessToken, string serializedContent)
+    {
+        string result = String.Empty;
         bool isContentPosted = false;
         var body = new StringContent(serializedContent, Encoding.UTF8, "application/json");
         try
