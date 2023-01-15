@@ -60,8 +60,8 @@ public class WebCamCapture : MonoBehaviour
     {
         int targetWidth = 512;
         int targetHeight = 512;
-        // Scale the original image up to 512x512
-        Texture2D scaled = ScaleTexture(photo, targetWidth, targetHeight);
+        // Scale the original image uniformly
+        Texture2D scaled = ScaleTextureUniformly(photo, targetWidth, targetHeight);
 
         // Define the source rectangle for the crop
         Rect sourceRect = new Rect((scaled.width - targetWidth) / 2, (scaled.height - targetHeight) / 2, targetWidth, targetHeight);
@@ -74,11 +74,17 @@ public class WebCamCapture : MonoBehaviour
         return cropped;
     }
 
-    private Texture2D ScaleTexture(Texture2D source, int targetWidth, int targetHeight)
+    private Texture2D ScaleTextureUniformly(Texture2D source, int targetWidth, int targetHeight)
     {
-        Texture2D result = new Texture2D(targetWidth, targetHeight, source.format, false);
-        float incX = (1.0f / (float)targetWidth);
-        float incY = (1.0f / (float)targetHeight);
+        float widthRatio = (float)targetWidth / (float)source.width;
+        float heightRatio = (float)targetHeight / (float)source.height;
+        float ratio = Mathf.Max(widthRatio, heightRatio);
+        int newWidth = (int)(source.width * ratio);
+        int newHeight = (int)(source.height * ratio);
+
+        Texture2D result = new Texture2D(newWidth, newHeight, source.format, false);
+        float incX = (1.0f / (float)newWidth);
+        float incY = (1.0f / (float)newHeight);
         for (int i = 0; i < result.height; ++i)
         {
             for (int j = 0; j < result.width; ++j)
@@ -89,7 +95,7 @@ public class WebCamCapture : MonoBehaviour
         }
         result.Apply();
         return result;
-    }    
+    }
     
     
 }
