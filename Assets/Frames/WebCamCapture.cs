@@ -10,7 +10,7 @@ public class WebCamCapture : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        filePath = Application.dataPath + "/photo.jpg";
+        filePath = Path.Combine(Application.persistentDataPath,"photo.jpg");
         
         // Get the default webcam
         WebCamDevice[] devices = WebCamTexture.devices;
@@ -40,8 +40,7 @@ public class WebCamCapture : MonoBehaviour
         // Copy the pixels from the webcam texture to the photo texture
         photo.SetPixels(webcamTexture.GetPixels());
         photo.Apply();
-        Texture2D cropped = new Texture2D(512, 512);
-        cropped.Apply();
+        Texture2D cropped = Crop(photo);
 
         // Encode the photo texture into a JPG
         byte[] bytes = cropped.EncodeToJPG();
@@ -57,29 +56,46 @@ public class WebCamCapture : MonoBehaviour
 
     string filePath;
 
-    private void CropSquare(int sdf )
+    private Texture2D Crop(Texture2D photo)
     {
-        // Create a new texture with the desired crop dimensions
-        int cropWidth = 300;
-        int cropHeight = 200;
-        Texture2D photo = new Texture2D(cropWidth, cropHeight);
+        int targetWidth = 512;
+        int targetHeight = 512;
+        // Scale the original image uniformly
+        Texture2D scaled = ScaleTextureUniformly(photo, targetWidth, targetHeight);
 
         // Define the source rectangle for the crop
-        Rect sourceRect = new Rect((webcamTexture.width - cropWidth) / 2, (webcamTexture.height - cropHeight) / 2, cropWidth, cropHeight);
+        Rect sourceRect = new Rect((scaled.width - targetWidth) / 2, (scaled.height - targetHeight) / 2, targetWidth, targetHeight);
 
         // Copy the pixels from the webcam texture to the photo texture
-        photo.SetPixels(webcamTexture.GetPixels((int)sourceRect.x, (int)sourceRect.y, (int)sourceRect.width, (int)sourceRect.height));
-        photo.Apply();
+        Texture2D cropped = new Texture2D(targetWidth, targetHeight);
+        cropped.SetPixels(scaled.GetPixels((int)sourceRect.x, (int)sourceRect.y, (int)sourceRect.width, (int)sourceRect.height));
+        cropped.Apply();
 
-        // Encode the photo texture into a JPG
-        byte[] bytes = photo.EncodeToJPG();
-
-        // Save the JPG to a file
-        File.WriteAllBytes(Application.dataPath + "/photo.jpg", bytes);
-
-        Debug.Log("Photo saved!");
+        return cropped;
     }
-    
+
+    private Texture2D ScaleTextureUniformly(Texture2D source, int targetWidth, int targetHeight)
+    {
+        float widthRatio = (float)targetWidth / (float)source.width;
+        float heightRatio = (float)targetHeight / (float)source.height;
+        float ratio = Mathf.Max(widthRatio, heightRatio);
+        int newWidth = (int)(source.width * ratio);
+        int newHeight = (int)(source.height * ratio);
+
+        Texture2D result = new Texture2D(newWidth, newHeight, source.format, false);
+        float incX = (1.0f / (float)newWidth);
+        float incY = (1.0f / (float)newHeight);
+        for (int i = 0; i < result.height; ++i)
+        {
+            for (int j = 0; j < result.width; ++j)
+            {
+                Color newColor = source.GetPixelBilinear((float)j / (float)result.width, (float)i / (float)result.height);
+                result.SetPixel(j, i, newColor);
+            }
+        }
+        result.Apply();
+        return result;
+    }
     
     
 }
