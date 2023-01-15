@@ -22,6 +22,7 @@ public class PlayVideo : MonoBehaviour
         {
             videoScreen.SetActive(true);
             originalObject.SetActive(false);
+            Debug.Log("Playing!");
         }
        
       
