@@ -10,7 +10,7 @@ public class WebCamCapture : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        filePath = Application.streamingAssetsPath + "/photo.jpg";
+        filePath = Path.Combine(Application.persistentDataPath,"photo.jpg");
         
         // Get the default webcam
         WebCamDevice[] devices = WebCamTexture.devices;
