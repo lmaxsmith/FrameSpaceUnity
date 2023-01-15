@@ -50,6 +50,11 @@ public class PortalManager : Manager<PortalManager>
         return tex;
     }
 
+    public void SetPrompt(string p)
+    {
+        prompt = p;
+    }
+    
     public void ClearPortals()
     {
         foreach (var portal in Portals)
