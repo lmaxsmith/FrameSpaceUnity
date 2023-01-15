@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 4980050383414719278}
   - component: {fileID: 955931359888571265}
   - component: {fileID: 8027600614314522875}
+  - component: {fileID: 3648112370338420111}
   m_Layer: 0
   m_Name: Prompt Button
   m_TagString: Untagged
@@ -331,9 +332,9 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Increment
+      - m_Target: {fileID: 3648112370338420111}
+        m_TargetAssemblyTypeName: Frames.PromptMono, Assembly-CSharp
+        m_MethodName: SendPrompt
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -641,6 +642,19 @@ MonoBehaviour:
   defaultButtonQuadMaterial: {fileID: 2100000, guid: fa419ab56051229449e3b813df8f295f, type: 2}
   iconSet: {fileID: 11400000, guid: 8b386ef895f7c924f8c4b03d1d3ed683, type: 2}
   defaultIconSet: {fileID: 11400000, guid: 8b386ef895f7c924f8c4b03d1d3ed683, type: 2}
+--- !u!114 &3648112370338420111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759216123464591575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 820505ff843c4fb8b33e9640390dc304, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prompts: []
 --- !u!1 &882771527490695980
 GameObject:
   m_ObjectHideFlags: 0

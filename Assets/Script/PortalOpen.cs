@@ -6,7 +6,7 @@ public class PortalOpen : MonoBehaviour
 {
     public GameObject particle;
     public GameObject portal;
-    private float waitTime = 10.0f;
+    private float waitTime = 4.0f;
     private float timer = 0f;
 
 
@@ -30,16 +30,4 @@ public class PortalOpen : MonoBehaviour
             portal.SetActive(false);
         }
     }
-
-    /*void OnTriggerEnter(Collider Other)
-    {
-        if (Other.tag == "Player")
-        {
-             particle.SetActive(true);
-            portal.SetActive(false);
-        }
-
-
-    }*/
-
 }
