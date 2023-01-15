@@ -12,10 +12,10 @@ EditorBuildSettings:
     path: Assets/Samples/Mixed Reality Toolkit Examples/2.8.2/Demos - HandTracking/Scenes/HandInteractionExamples.unity
     guid: 3dd4a396b5225f8469b9a1eb608bfa57
   - enabled: 0
-    path: Assets/MRTK Basic Scene.unity
+    path: Assets/Scenes/MRTK Basic Scene.unity
     guid: cad671ce2e558de48aa8d31927e569c0
   - enabled: 1
-    path: Assets/Framespace Judge scene.unity
+    path: Assets/Scenes/Framespace Judge scene.unity
     guid: 9b1d2f1146a03f248993bc69ebffb844
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
