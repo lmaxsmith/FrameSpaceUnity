@@ -93,8 +93,17 @@ public class Interdemensionalizer : MonoBehaviour
 
         ResponseClass promptClass = new ResponseClass();
         promptClass.prompt = prompt;
-        await PostAsync<bool>($"https://framespace.leodastur.com/api/transformImage/{urlResponse.imageID}", "",
+        var promptResultJson = await PostAsync($"https://framespace.leodastur.com/api/transformImage/{urlResponse.imageID}", "",
             JsonConvert.SerializeObject(promptClass));
+
+        DownloadUriResponse downloadUriResponse = JsonConvert.DeserializeObject<DownloadUriResponse>(promptResultJson);
+        string downloadURL = downloadUriResponse.transformedImageURL;
+        string id = urlResponse.imageID;
+
+        string filepath = Path.Combine(Application.persistentDataPath, "Images", $"{id}.jpg");
+        FileInfo interDementionalizedFile = new FileInfo(filepath);
+
+        await DownloadFileAsync(downloadURL, interDementionalizedFile.FullName);
     }
     
     public async UniTask UploadImageAsync(string url, byte[] imageBytes, string fileName)
@@ -119,13 +128,13 @@ public class Interdemensionalizer : MonoBehaviour
 
     
     [Button]
-    public async UniTask<UriResponse> GetUplaodURL()
+    public async UniTask<UploadUriResponse> GetUplaodURL()
     {
-        var blah = await PostAsync<bool>(urlPoopy, "", "");
+        var blah = await PostAsync(urlPoopy, "", "");
         if (blah == null)
             return null;
         
-        return JsonConvert.DeserializeObject<UriResponse>(blah);
+        return JsonConvert.DeserializeObject<UploadUriResponse>(blah);
     
     }
 
@@ -148,14 +157,14 @@ public class Interdemensionalizer : MonoBehaviour
     */
     
     
-            /// <summary>
-        /// Calls the protected Web API and Posts new data to database
-        /// </summary>
-        /// <param name="webApiUrl">Url of the Web API to call</param>
-        /// <param name="accessToken">Access token used as a security token to call the Web API</param>
-        /// <param name="serializedObject">List of Dictionaries containing parameters added to the body of the request</param>
-        /// <returns> A boolean true representing content was posted properly; otherwise, false </returns>
-        public async UniTask<string> PostAsync<Bool>(string requestUrl, string accessToken, string serializedContent)
+        /// <summary>
+    /// Calls the protected Web API and Posts new data to database
+    /// </summary>
+    /// <param name="webApiUrl">Url of the Web API to call</param>
+    /// <param name="accessToken">Access token used as a security token to call the Web API</param>
+    /// <param name="serializedObject">List of Dictionaries containing parameters added to the body of the request</param>
+    /// <returns> A boolean true representing content was posted properly; otherwise, false </returns>
+        public async UniTask<string> PostAsync(string requestUrl, string accessToken, string serializedContent)
             {
                 string result = String.Empty;
         bool isContentPosted = false;
@@ -197,8 +206,9 @@ public class Interdemensionalizer : MonoBehaviour
     }
 
     private HttpClient HttpClient = new HttpClient();
-        
-                /// <summary>
+    
+    
+    /// <summary>
     /// Uploads a provided file (Stream) via protect Web API
     /// </summary>
     /// <param name="webApiUrl">Url of the Web API to call</param>
@@ -263,21 +273,41 @@ public class Interdemensionalizer : MonoBehaviour
         return isFileUploaded;
     }
 
-        
-            private HttpClient _client = new HttpClient();
+    public async UniTask DownloadFileAsync(string url, string filePath)
+    {
+        using (var client = new HttpClient())
+        {
+            using (var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
+            {
+                response.EnsureSuccessStatusCode();
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    await response.Content.CopyToAsync(fileStream);
+                }
+            }
+        }
+    }
+    
+    private HttpClient _client = new HttpClient();
 
 }
 
-public class UriResponse
+public class UploadUriResponse
 {
     
     public bool success { get; set; }
     public string imageUploadURL { get; set; }
     public string imageID { get; set; }
 
-    public UriResponse() { }
+    public UploadUriResponse() { }
+}
+
+public class DownloadUriResponse
+{
+    public bool success { get; set; }
+    public string transformedImageURL { get; set; }
     
-    
+    public DownloadUriResponse(){}
 }
 
 public class ResponseClass
