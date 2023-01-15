@@ -23,7 +23,7 @@ public class ImageUploader : MonoBehaviour
 
     private bool SendRequestAsync()
     {
-        
+        return true;
     }
     private IEnumerator SendRequest(UnityWebRequest www)
     {

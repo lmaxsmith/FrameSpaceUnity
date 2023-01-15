@@ -1,16 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.IO;
 using EasyButtons;
+using UnityEngine.Events;
 
 public class WebCamCapture : MonoBehaviour
 {
     // Reference to the webcam texture
     private WebCamTexture webcamTexture;
 
+    public Material imageMat;
+    
     // Use this for initialization
     void Start()
     {
-        filePath = Path.Combine(Application.persistentDataPath,"photo.jpg");
+        filePath = Path.Combine(Application.persistentDataPath,"Images");
         
         // Get the default webcam
         WebCamDevice[] devices = WebCamTexture.devices;
@@ -19,6 +23,11 @@ public class WebCamCapture : MonoBehaviour
         // Start the webcam
         webcamTexture.Play();
     }
+
+
+
+
+    public UnityEvent CapturedEvent = new UnityEvent();
 
     // Update is called once per frame
     void Update()
@@ -32,7 +41,7 @@ public class WebCamCapture : MonoBehaviour
     }
 
     [Button]
-    public void Capture()
+    public Texture2D Capture()
     {
         // Create a new texture with the same resolution as the webcam texture
         Texture2D photo = new Texture2D(webcamTexture.width, webcamTexture.height);
@@ -42,16 +51,35 @@ public class WebCamCapture : MonoBehaviour
         photo.Apply();
         Texture2D cropped = Crop(photo);
 
-        // Encode the photo texture into a JPG
-        byte[] bytes = cropped.EncodeToJPG();
+        CapturedEvent.Invoke();
+        return cropped;
+    }
 
+    public FileInfo SaveImage(Texture2D tex)
+    {
+        // Encode the photo texture into a JPG
+        byte[] bytes = tex.EncodeToJPG();
+
+        if (!Directory.Exists(filePath))
+            Directory.CreateDirectory(filePath);
+        
         // Save the JPG to a file
-        File.WriteAllBytes(filePath, bytes);
+        FileInfo fileInfo = new FileInfo(Path.Combine(filePath,
+            $"Photo-{Guid.NewGuid().ToString()}.jpg"));
+        
+        File.WriteAllBytes(fileInfo.FullName, bytes);
 
         if (File.Exists(filePath))
             Debug.Log($"Photo saved to {filePath}!");
         else
             Debug.Log("Photo failed to save :(");
+
+        return fileInfo;
+    }
+
+    public void DisplayImage(Texture2D tex)
+    {
+        imageMat.mainTexture = tex;
     }
 
     string filePath;
