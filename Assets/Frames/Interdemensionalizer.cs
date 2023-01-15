@@ -21,10 +21,10 @@ public class ImageUploader : MonoBehaviour
         StartCoroutine(SendRequest(www));
     }
 
-    private bool SendRequestAsync()
+   /* private bool SendRequestAsync()
     {
         
-    }
+    }*/
     private IEnumerator SendRequest(UnityWebRequest www)
     {
         yield return www.SendWebRequest();
