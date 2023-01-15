@@ -81,14 +81,20 @@ public class Interdemensionalizer : MonoBehaviour
     */
 
     [Button]
-    public async void Interdemensionalize(byte[] bytes)
+    public async void Interdemensionalize(byte[] bytes, string prompt)
     {
-        string uurl = await GetUplaodURL();
+        var urlResponse = await GetUplaodURL();
+        string uurl = urlResponse.imageUploadURL;
         /*using (Stream stream = new MemoryStream())
         {
             UploadFileAsync<bool>(uurl, new Dictionary<string, string>(), "", "Image.jpg", stream);
         }*/
         await UploadImageAsync(uurl, bytes, "image.jpg");
+
+        ResponseClass promptClass = new ResponseClass();
+        promptClass.prompt = prompt;
+        await PostAsync<bool>($"https://framespace.leodastur.com/api/transformImage/{urlResponse.imageID}", "",
+            JsonConvert.SerializeObject(promptClass));
     }
     
     public async UniTask UploadImageAsync(string url, byte[] imageBytes, string fileName)
@@ -113,13 +119,13 @@ public class Interdemensionalizer : MonoBehaviour
 
     
     [Button]
-    public async UniTask<string> GetUplaodURL()
+    public async UniTask<UriResponse> GetUplaodURL()
     {
         var blah = await PostAsync<bool>(urlPoopy, "", "");
         if (blah == null)
-            return "";
+            return null;
         
-        return JsonConvert.DeserializeObject<UriResponse>(blah).imageUploadURL;
+        return JsonConvert.DeserializeObject<UriResponse>(blah);
     
     }
 
@@ -272,4 +278,11 @@ public class UriResponse
     public UriResponse() { }
     
     
+}
+
+public class ResponseClass
+{
+    public string prompt { get; set; }
+    
+    public ResponseClass(){}
 }

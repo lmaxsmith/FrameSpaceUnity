@@ -12,7 +12,7 @@ public class PortalManager : Manager<PortalManager>
 
     public Interdemensionalizer Interdemensionalizer;
     public WebCamCapture WebCamCapture;
-    
+    public string prompt;
     
     [Button]
     public void NewPortal()
@@ -30,7 +30,7 @@ public class PortalManager : Manager<PortalManager>
         portal.Display();
         Portals.Add(portal);
         
-        Interdemensionalizer.Interdemensionalize(imageData.EncodeToJPG());
+        Interdemensionalizer.Interdemensionalize(imageData.EncodeToJPG(), prompt);
     }
 
     public void ClearPortals()
