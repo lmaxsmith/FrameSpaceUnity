@@ -30,4 +30,16 @@ public class PortalOpen : MonoBehaviour
             portal.SetActive(false);
         }
     }
+
+    /*void OnTriggerEnter(Collider Other)
+    {
+        if (Other.tag == "Player")
+        {
+             particle.SetActive(true);
+            portal.SetActive(false);
+        }
+
+
+    }*/
+
 }
