@@ -8,18 +8,9 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Samples/Mixed Reality Toolkit Examples/2.8.2/Demos - HandTracking/Scenes/HandInteractionExamples.unity
-    guid: 3dd4a396b5225f8469b9a1eb608bfa57
-  - enabled: 0
-    path: Assets/MRTK Basic Scene.unity
-    guid: cad671ce2e558de48aa8d31927e569c0
   - enabled: 1
-    path: Assets/Framespace Judge scene.unity
-    guid: 9b1d2f1146a03f248993bc69ebffb844
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Frames/Image capture Dev.unity
+    guid: 6d5e7399b1efcd94e91398a821989f8f
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: ffb3d63b9d2a959478ecca49740c6e28, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: f88ea5ae517a28b4ebb5b70e05fbe1e0, type: 2}

@@ -23,8 +23,13 @@ public class ImageUploader : MonoBehaviour
 
    /* private bool SendRequestAsync()
     {
+<<<<<<< HEAD
         
     }*/
+=======
+        return true;
+    }
+>>>>>>> origin/feature/imageCapture
     private IEnumerator SendRequest(UnityWebRequest www)
     {
         yield return www.SendWebRequest();
