@@ -9,7 +9,8 @@ public class PortalManager : Manager<PortalManager>
 {
     private HashSet<Portal> Portals = new HashSet<Portal>();
     public Portal _portalPrefab;
-    
+
+    public Interdemensionalizer Interdemensionalizer;
     public WebCamCapture WebCamCapture;
     
     
@@ -28,6 +29,8 @@ public class PortalManager : Manager<PortalManager>
         portal.currentTexture = imageData;
         portal.Display();
         Portals.Add(portal);
+        
+        Interdemensionalizer.Interdemensionalize(imageData.EncodeToJPG());
     }
 
     public void ClearPortals()
