@@ -54,6 +54,11 @@ public class PortalManager : Manager<PortalManager>
     {
         prompt = p;
     }
+
+    public void SetTheme()
+    {
+        
+    }
     
     public void ClearPortals()
     {
